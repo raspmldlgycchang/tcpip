@@ -71,13 +71,13 @@ void IntToChar(void* const p, char type, int input);
 
 void Init1(void** const p)
 {
-	*(int*)(((p_gyc)(*p))->numResult) = 0;
+	*(int*)(&((p_gyc)(*p))->numResult) = 0;
 	((p_gyc)(*p))->enumObj = Num_class::Num_class::ROCK;
 }
 void Init2(void* const p)
 {
 	(((p_gyc)p)->numResult) = 0;
-	printf("%p :(int*)(((p_gyc)p)->numResult), %p :(p_gyc)p\n", (int*)(((p_gyc)p)->numResult), (p_gyc)p);
+	printf("%p :(int*)(&((p_gyc)p)->numResult), %p :(p_gyc)p\n", (int*)(&((p_gyc)p)->numResult), (p_gyc)p);
 	((p_gyc)p)->enumObj = Num_class::Num_class::ROCK;
 }
 void GetInfo(p_gyc p_gycchang)
@@ -86,8 +86,7 @@ void GetInfo(p_gyc p_gycchang)
 }
 void method1(void* p)
 {
-	printf("%d: method1()함수\n", (int)((gycchang*)p)->numResult);
-	printf("%d: method1()함수\n", ((gycchang*)p)->enumObj);
+	printf("method1함수: %d: (int)((gycchang*)p)->numResult\t %d: ((gycchang*)p)->enumObj\n", (int)((gycchang*)p)->numResult, ((gycchang*)p)->enumObj);
 }
 //구조체 매개변수를 받아서 정수형변수 이용해서 switch~case문 작성
 void IntToChar(void* const p, char type, int input)
@@ -102,7 +101,7 @@ void IntToChar(void* const p, char type, int input)
 		printf("방금 위에서 본 IntToChar함수의 void포인터형 변수를 method1함수에 넘긴 결과입니다\n");
 		printf("방금 위에서 본 결과는 구조체 포인터 변수를 보냈기에 IntToChar함수의 void*형 매개변수에 메인함수에서 구조체 포인터 변수를 보내는 것은 가능합니다\n");
 		
-		printf("%d : (int)p_gyc_tmp->numResult\n", (int)p_gyc_tmp->numResult);
+		printf("%d : p_gyc_tmp->numResult\n", p_gyc_tmp->numResult);
 		/*
 		int data = 0x12345678;
 		void* p_showBlog = &data;
@@ -245,6 +244,8 @@ int main(int argc, char* argv[])
 			printf("%d : rand()결과_서버쪽이 내는 것(rand함수를 통해 초기화한 함수)\n", result);
 			IntToChar(p_gycchang, 1, result);
 			//Enum(p_gycchang, 1, result);
+			printf("서버쪽 IntToChar함수에서 구조체 변수 수정 완료 : ");
+			GetInfo(p_gycchang);
 			i++;
 		}
 	}
@@ -274,6 +275,8 @@ int main(int argc, char* argv[])
 			printf("%d : rand()결과_서버쪽이 내는 것(rand함수를 통해 초기화한 함수)\n", result);
 			IntToChar(add_p_gyc, 1, result);
 			//Enum(add_p_gyc, 1, result);
+			printf("서버쪽 IntToChar함수에서 구조체 변수 수정 완료 : ");
+			GetInfo(p_gycchang);
 			i++;
 		}
 	}
