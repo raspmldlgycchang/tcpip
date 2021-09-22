@@ -103,6 +103,22 @@ void IntToChar(void* const p, char type, int input)
 		printf("방금 위에서 본 결과는 구조체 포인터 변수를 보냈기에 IntToChar함수의 void*형 매개변수에 메인함수에서 구조체 포인터 변수를 보내는 것은 가능합니다\n");
 		
 		printf("%d : (int)p_gyc_tmp->numResult\n", (int)p_gyc_tmp->numResult);
+		/*
+		int data = 0x12345678;
+		void* p_showBlog = &data;
+		char* p_charBlog = (char*)p_showBlog;
+		printf("윈도우에서 작성된 프로그램에서 c파일은 리틀엔디언 정렬 방식으로 되어있습니다\n");
+		printf("정수형 변수 %#X의 상위 바이트 값부터 1바이트씩 출력해보면 리틀엔디언 방식에서는 다음처럼 저장되어있습니다\n", data);
+		printf("시작주소 : %#X, %p == %lld번지\n", *(char*)p_showBlog, (char*)p_showBlog, (long long int)p_showBlog);
+		for (int i = 0; i < 4; i++) {
+			printf("%#X, %lld번지\n", *p_charBlog++, (long long int)p_charBlog);
+			//에러
+			//printf("%#X, %p번지\n", *(char*)p_showBlog, ((char*)p_showBlog)++);
+		}
+		printf("위의 결과에서도 알 수 있듯이 작은 번지수에 정수형 변수의 하위 바이트 값이 저장되어있습니다\n");
+		*/
+
+
 		//실행중에러
 		//memcpy((int*)((gycchang*)p)->numResult,(const char*)&input,4);
 		//printf("%d : (int*)((gycchang*)p)->numResult\n", (int)((gycchang*)p)->numResult);
@@ -112,18 +128,23 @@ void IntToChar(void* const p, char type, int input)
 		//printf("%d : (int*)((gycchang*)p)->numResult\n", (int)((gycchang*)p)->numResult);
 		//printf("%d : *(int*)((gycchang*)p)->numResult\n", *(int*)(((gycchang*)p)->numResult));
 		//void포인터형 기본내용 이용
-		//실행중에러
-		//void* p_tmp = (int*)((gycchang*)p)->numResult;// &(*(int*)((gycchang*)p)->numResult);
+		void* p_tmp = (int*)(((gycchang*)p)->numResult);// &(*(int*)((gycchang*)p)->numResult);
+		printf("%p : (int*)p_tmp주소, %p : (int*)(((gycchang*)p)->numResult)\n", (int*)p_tmp, (int*)(((gycchang*)p)->numResult));
+		*(int*)(&((gycchang*)p)->numResult) = input;
+		printf("%d : *(int*)(&((gycchang*)p)->numResult)\n", *(int*)(&((gycchang*)p)->numResult));
+		//실행중 에러
 		//*(int*)p_tmp = input;
-		//printf("%d : *(int*)p_tmp\n", *(int*)p_tmp);
+		//*(int*)(((gycchang*)p)->numResult) = input;
+		//printf("%d : *(int*)(((gycchang*)p)->numResult)\n", *(int*)(((gycchang*)p)->numResult));
 		//실행중에러
 		//int* p_tmp_int = (int*)((gycchang*)p)->numResult;
 		//*p_tmp_int = input;
 		//printf("%d : *p_tmp_int\n", *p_tmp_int);
 
+
 		//int tmp_int = *p_tmp_int;
 		//printf("%d : tmp_int, %d : *(int*)p_tmp_int\n", tmp_int, *(int*)p_tmp_int);
-		int temp = *(int*)((gycchang*)p)->numResult;
+		int temp = *(int*)(&((gycchang*)p)->numResult);
 		printf("%d : temp\n", temp);
 		return Change1((p_gyc)p, temp);
 	}
